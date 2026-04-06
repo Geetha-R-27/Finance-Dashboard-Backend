@@ -245,6 +245,45 @@ spring.jpa.properties.hibernate.format_sql=true
 
 ---
 
+## 🔧 Technical Decisions and Trade-offs
+
+### 1. Spring Boot for Backend
+Spring Boot was chosen for its rapid development capabilities, built-in support for REST APIs, and seamless integration with Spring Data JPA and Spring Security. This allowed faster implementation of core features with minimal configuration.
+
+### 2. PostgreSQL (Neon) for Database
+A cloud-hosted PostgreSQL database (Neon) was used instead of local or in-memory databases to simulate a production-like environment.  
+**Trade-off:** Slightly more setup complexity compared to H2, but better real-world relevance.
+
+### 3. JPA / Hibernate for ORM
+JPA was used to simplify database operations and reduce boilerplate SQL code.  
+**Trade-off:** Less control over complex queries compared to native SQL, but improves maintainability.
+
+### 4. Role-Based Access Control (RBAC)
+Access control was implemented using roles (`ADMIN`, `ANALYST`, `VIEWER`) enforced at the API level.  
+**Trade-off:** Simpler than full policy-based systems, but sufficient for this use case and easier to maintain.
+
+### 5. Simplified Authentication
+Basic authentication using Spring Security was implemented, with JWT planned as a future enhancement.  
+**Trade-off:** Simpler implementation for assignment scope, but less scalable than token-based authentication.
+
+### 6. Service Layer Abstraction
+Business logic is separated into service classes to maintain clean architecture and separation of concerns.  
+**Trade-off:** Slightly more code structure, but improves readability and scalability.
+
+### 7. ddl-auto=update for Development
+Used for rapid schema updates during development.  
+**Trade-off:** Not suitable for production; migrations (Flyway) recommended for production environments.
+---
+## 📌 Additional Notes
+
+- The system is designed with clarity and maintainability as primary goals rather than production-level complexity.
+- Authentication is implemented in a simplified form to focus on backend logic and access control, as per assignment scope.
+- Role-based access control is enforced at the API level to ensure secure operations based on user roles.
+- Error handling is centralized using a global exception handler for consistent API responses.
+- Environment variables are used for database credentials to ensure security and flexibility.
+- The project structure follows a layered architecture (Controller → Service → Repository → Model) for better scalability.
+- Assumptions were made where requirements were not explicitly defined, such as single-currency support and simplified authentication.
+---
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
